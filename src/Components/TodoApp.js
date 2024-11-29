@@ -1,50 +1,19 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import TodoList from "./TodoList";
-
-const API_URL = "http://localhost:5000/api/tasks";
 
 const TodoApp = () => {
     const [tasks, setTasks] = useState([]);
 
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await axios.get(API_URL);
-                setTasks(response.data);
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        };
-
-        fetchTasks();
-    }, []);
-
-    const addTask = async (task) => {
-        try {
-            const response = await axios.post(API_URL, task);
-            setTasks([...tasks, response.data]);
-        } catch (error) {
-            console.error("Error adding task:", error);
-        }
+    const addTask = (task) => {
+        setTasks([...tasks, { id: Date.now(), ...task }]);
     };
 
-    const deleteTask = async (id) => {
-        try {
-            await axios.delete(`${API_URL}/${id}`);
-            setTasks(tasks.filter((task) => task.id !== id));
-        } catch (error) {
-            console.error("Error deleting task:", error);
-        }
+    const deleteTask = (id) => {
+        setTasks(tasks.filter((task) => task.id !== id));
     };
 
-    const editTask = async (id, updatedTask) => {
-        try {
-            const response = await axios.put(`${API_URL}/${id}`, updatedTask);
-            setTasks(tasks.map((task) => (task.id === id ? response.data : task)));
-        } catch (error) {
-            console.error("Error editing task:", error);
-        }
+    const editTask = (id, updatedTask) => {
+        setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
     };
 
     return (
@@ -56,7 +25,6 @@ const TodoApp = () => {
     );
 };
 
-// TaskForm component
 const TaskForm = ({ onAddTask }) => {
     const [title, setTitle] = useState("");
     const [status, setStatus] = useState("pending");
