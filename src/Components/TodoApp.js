@@ -1,19 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoList from "./TodoList";
+const API_URL = "https://to-do-list.vercel.app/api/tasks";
 
 const TodoApp = () => {
     const [tasks, setTasks] = useState([]);
 
-    const addTask = (task) => {
-        setTasks([...tasks, { id: Date.now(), ...task }]);
+    // Fetch tasks from the backend
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const response = await fetch(`${API_URL}`);
+                const data = await response.json();
+                setTasks(data);
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        };
+
+        fetchTasks();
+    }, []);
+
+    // Add a new task
+    const addTask = async (task) => {
+        try {
+            const response = await fetch(`${API_URL}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(task),
+            });
+            const newTask = await response.json();
+            setTasks((prevTasks) => [...prevTasks, newTask]);
+        } catch (error) {
+            console.error("Error adding task:", error);
+        }
     };
 
-    const deleteTask = (id) => {
-        setTasks(tasks.filter((task) => task.id !== id));
+    // Delete a task
+    const deleteTask = async (id) => {
+        try {
+            await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+            setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+        } catch (error) {
+            console.error("Error deleting task:", error);
+        }
     };
 
-    const editTask = (id, updatedTask) => {
-        setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
+    // Edit a task
+    const editTask = async (id, updatedTask) => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedTask),
+            });
+            const updatedData = await response.json();
+            setTasks((prevTasks) =>
+                prevTasks.map((task) => (task.id === id ? updatedData : task))
+            );
+        } catch (error) {
+            console.error("Error updating task:", error);
+        }
     };
 
     return (
