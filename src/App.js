@@ -1,12 +1,12 @@
-import Main from "./Todo/Main";
+import React from "react";
+import TodoApp from "./Components/TodoApp";
 
-
-function App() {
+const App = () => {
   return (
-    <>
-     <Main/>
-    </>
+    <div>
+      <TodoApp />
+    </div>
   );
-}
+};
 
 export default App;

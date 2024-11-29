@@ -1,7 +1,117 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
 
-.Twrap{
-    word-wrap: break-word;
+h1 {
+    text-align: center;
+    color: #fa0d97;
+    margin: 20px 0;
+}
+
+form {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    align-items: center;
+    margin: 20px 0;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 90%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: auto;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    background-color: #4c9ffb;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.todo-item {
+    display: inline-block;
+    gap: 40px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.todo-item.pending {
+    background-color: #ff6b6b;
+}
+
+.todo-item.in-progress {
+    background-color: #4c9ffb;
+}
+
+.todo-item.completed {
+    background-color: #4CAF50;
+}
+
+.todo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.todo-item h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+}
+
+.todo-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.todo-item .buttons {
+    margin-top: 10px;
+}
+
+.todo-item .buttons button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.todo-item .edit-btn {
+    background-color: #16f7d1;
+}
+
+.todo-item .delete-btn {
+    background-color: #2b0202;
 }
